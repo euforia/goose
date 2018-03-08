@@ -6,7 +6,6 @@ import (
 	"database/sql"
 	"io"
 	"log"
-	"os"
 	"strings"
 )
 
@@ -138,12 +137,13 @@ func getSQLStatements(r io.Reader, direction bool) (stmts []string, tx bool) {
 //
 // All statements following an Up or Down directive are grouped together
 // until another direction directive is found.
-func runSQLMigration(db *sql.DB, scriptFile string, v int64, direction bool) error {
-	f, err := os.Open(scriptFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
+//func runSQLMigration(db *sql.DB, scriptFile string, v int64, direction bool) error {
+func runSQLMigration(db *sql.DB, f io.ReadCloser, v int64, direction bool) error {
+	// f, err := os.Open(scriptFile)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer f.Close()
 
 	statements, useTx := getSQLStatements(f, direction)
 
